@@ -203,7 +203,7 @@ double compute_homography_msac_score(const Eigen::Matrix3d &H, const std::vector
 }
 
 void get_homography_inliers(const Eigen::Matrix3d &H, const std::vector<Point2D> &x1, const std::vector<Point2D> &x2,
-                            double sq_threshold, std::vector<char> *inliers) {
+                            double sq_threshold, std::vector<uint8_t> *inliers) {
     const double H0_0 = H(0, 0), H0_1 = H(0, 1), H0_2 = H(0, 2);
     const double H1_0 = H(1, 0), H1_1 = H(1, 1), H1_2 = H(1, 2);
     const double H2_0 = H(2, 0), H2_1 = H(2, 1), H2_2 = H(2, 2);
@@ -246,7 +246,7 @@ double compute_msac_score_1D_radial(const CameraPose &pose, const std::vector<Po
 
 // Compute inliers for absolute pose estimation (using reprojection error and cheirality check)
 void get_inliers(const CameraPose &pose, const std::vector<Point2D> &x, const std::vector<Point3D> &X,
-                 double sq_threshold, std::vector<char> *inliers) {
+                 double sq_threshold, std::vector<uint8_t> *inliers) {
     inliers->resize(x.size());
     const Eigen::Matrix3d R = pose.R();
 
@@ -258,7 +258,7 @@ void get_inliers(const CameraPose &pose, const std::vector<Point2D> &x, const st
 }
 
 void get_inliers(const CameraPose &pose, const std::vector<Line2D> &lines2D, const std::vector<Line3D> &lines3D,
-                 double sq_threshold, std::vector<char> *inliers) {
+                 double sq_threshold, std::vector<uint8_t> *inliers) {
     inliers->resize(lines2D.size());
     const Eigen::Matrix3d R = pose.R();
 
@@ -277,7 +277,7 @@ void get_inliers(const CameraPose &pose, const std::vector<Line2D> &lines2D, con
 
 // Compute inliers for relative pose estimation (using Sampson error)
 int get_inliers(const CameraPose &pose, const std::vector<Point2D> &x1, const std::vector<Point2D> &x2,
-                double sq_threshold, std::vector<char> *inliers) {
+                double sq_threshold, std::vector<uint8_t> *inliers) {
     inliers->resize(x1.size());
     Eigen::Matrix3d E;
     essential_from_motion(pose, &E);
@@ -322,7 +322,7 @@ int get_inliers(const CameraPose &pose, const std::vector<Point2D> &x1, const st
 
 // Compute inliers for relative pose estimation (using Sampson error)
 int get_inliers(const Eigen::Matrix3d &E, const std::vector<Point2D> &x1, const std::vector<Point2D> &x2,
-                double sq_threshold, std::vector<char> *inliers) {
+                double sq_threshold, std::vector<uint8_t> *inliers) {
     inliers->resize(x1.size());
     const double E0_0 = E(0, 0), E0_1 = E(0, 1), E0_2 = E(0, 2);
     const double E1_0 = E(1, 0), E1_1 = E(1, 1), E1_2 = E(1, 2);
@@ -359,7 +359,7 @@ int get_inliers(const Eigen::Matrix3d &E, const std::vector<Point2D> &x1, const 
 
 // Compute inliers for absolute pose estimation (using reprojection error and cheirality check)
 void get_inliers_1D_radial(const CameraPose &pose, const std::vector<Point2D> &x, const std::vector<Point3D> &X,
-                           double sq_threshold, std::vector<char> *inliers) {
+                           double sq_threshold, std::vector<uint8_t> *inliers) {
     inliers->resize(x.size());
     const Eigen::Matrix3d R = pose.R();
 
