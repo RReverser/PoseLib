@@ -61,6 +61,8 @@ struct RansacStats {
 };
 
 struct BundleOptions {
+    BundleOptions() {}
+
     size_t max_iterations = 100;
     enum LossType {
         TRIVIAL,
