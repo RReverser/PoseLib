@@ -36,6 +36,8 @@
 
 namespace poselib {
 
+using Matrix3x4d = Eigen::Matrix<double, 3, 4>;
+
 struct CameraPose {
     // Rotation is represented as a unit quaternion
     // with real part first, i.e. QW, QX, QY, QZ
@@ -49,8 +51,8 @@ struct CameraPose {
 
     // Helper functions
     inline Eigen::Matrix3d R() const { return quat_to_rotmat(q); }
-    inline Eigen::Matrix<double, 3, 4> Rt() const {
-        Eigen::Matrix<double, 3, 4> tmp;
+    inline Matrix3x4d Rt() const {
+        Matrix3x4d tmp;
         tmp.block<3, 3>(0, 0) = quat_to_rotmat(q);
         tmp.col(3) = t;
         return tmp;
