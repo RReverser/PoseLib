@@ -81,6 +81,14 @@ std::string Camera::name_from_id(int model_id) {
 #undef SWITCH_CAMERA_MODEL_CASE
 }
 
+[[noreturn]] void not_implemented(void) {
+#if __cpp_exceptions
+    throw std::runtime_error("not implemented");
+#else
+    abort();
+#endif
+}
+
 // Projection and distortion
 void Camera::project(const Eigen::Vector2d &x, Eigen::Vector2d *xp) const {
 #define SWITCH_CAMERA_MODEL_CASE(Model)                                                                                \
@@ -92,7 +100,7 @@ void Camera::project(const Eigen::Vector2d &x, Eigen::Vector2d *xp) const {
         SWITCH_CAMERA_MODELS
 
     default:
-        throw std::runtime_error("NYI");
+        not_implemented();
     }
 #undef SWITCH_CAMERA_MODEL_CASE
 }
@@ -106,7 +114,7 @@ void Camera::project_with_jac(const Eigen::Vector2d &x, Eigen::Vector2d *xp, Eig
         SWITCH_CAMERA_MODELS
 
     default:
-        throw std::runtime_error("NYI");
+        not_implemented();
     }
 #undef SWITCH_CAMERA_MODEL_CASE
 }
@@ -120,7 +128,7 @@ void Camera::unproject(const Eigen::Vector2d &xp, Eigen::Vector2d *x) const {
         SWITCH_CAMERA_MODELS
 
     default:
-        throw std::runtime_error("NYI");
+        not_implemented();
     }
 #undef SWITCH_CAMERA_MODEL_CASE
 }
@@ -500,15 +508,15 @@ const std::vector<size_t> OpenCVCameraModel::principal_point_idx = {2, 3};
 
 void OpenCVFisheyeCameraModel::project(const std::vector<double> &params, const Eigen::Vector2d &x,
                                        Eigen::Vector2d *xp) {
-    throw std::runtime_error("nyi");
+    not_implemented();
 }
 void OpenCVFisheyeCameraModel::project_with_jac(const std::vector<double> &params, const Eigen::Vector2d &x,
                                                 Eigen::Vector2d *xp, Eigen::Matrix2d *jac) {
-    throw std::runtime_error("nyi");
+    not_implemented();
 }
 void OpenCVFisheyeCameraModel::unproject(const std::vector<double> &params, const Eigen::Vector2d &xp,
                                          Eigen::Vector2d *x) {
-    throw std::runtime_error("nyi");
+    not_implemented();
 }
 const std::vector<size_t> OpenCVFisheyeCameraModel::focal_idx = {0, 1};
 const std::vector<size_t> OpenCVFisheyeCameraModel::principal_point_idx = {2, 3};
