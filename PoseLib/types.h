@@ -35,6 +35,8 @@
 namespace poselib {
 
 struct RansacOptions {
+    RansacOptions() {}
+
     size_t max_iterations = 100000;
     size_t min_iterations = 1000;
     double dyn_num_trials_mult = 3.0;
@@ -56,6 +58,8 @@ struct RansacStats {
 };
 
 struct BundleOptions {
+    BundleOptions() {}
+
     size_t max_iterations = 100;
     enum LossType {
         TRIVIAL,
