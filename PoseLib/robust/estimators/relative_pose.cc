@@ -59,7 +59,7 @@ void RelativePoseEstimator::refine_model(CameraPose *pose) const {
     bundle_opt.max_iterations = 25;
 
     // Find approximate inliers and bundle over these with a truncated loss
-    std::vector<char> inliers;
+    std::vector<uint8_t> inliers;
     int num_inl = get_inliers(*pose, x1, x2, 5 * (opt.max_epipolar_error * opt.max_epipolar_error), &inliers);
     std::vector<Eigen::Vector2d> x1_inlier, x2_inlier;
     x1_inlier.reserve(num_inl);
@@ -112,7 +112,7 @@ void SharedFocalRelativePoseEstimator::refine_model(ImagePair *image_pair) const
     Eigen::Matrix3d F = K_inv * (E * K_inv);
 
     // Find approximate inliers and bundle over these with a truncated loss
-    std::vector<char> inliers;
+    std::vector<uint8_t> inliers;
     int num_inl = get_inliers(F, x1, x2, 5 * (opt.max_epipolar_error * opt.max_epipolar_error), &inliers);
     std::vector<Eigen::Vector2d> x1_inlier, x2_inlier;
     x1_inlier.reserve(num_inl);
@@ -226,7 +226,7 @@ void GeneralizedRelativePoseEstimator::refine_model(CameraPose *pose) const {
         relpose.t = pose2.t - relpose.rotate(pose1.t);
 
         // Compute inliers with a relaxed threshold
-        std::vector<char> inliers;
+        std::vector<uint8_t> inliers;
         int num_inl = get_inliers(relpose, m.x1, m.x2, 5 * (opt.max_epipolar_error * opt.max_epipolar_error), &inliers);
 
         inlier_matches[match_k].cam_id1 = m.cam_id1;

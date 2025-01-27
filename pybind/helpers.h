@@ -141,7 +141,7 @@ Camera camera_from_dict(const py::dict &camera_dict) {
     return camera;
 }
 
-std::vector<bool> convert_inlier_vector(const std::vector<char> &inliers) {
+std::vector<bool> convert_inlier_vector(const std::vector<uint8_t> &inliers) {
     std::vector<bool> inliers_bool(inliers.size());
     for (size_t k = 0; k < inliers.size(); ++k) {
         inliers_bool[k] = static_cast<bool>(inliers[k]);
@@ -149,7 +149,7 @@ std::vector<bool> convert_inlier_vector(const std::vector<char> &inliers) {
     return inliers_bool;
 }
 
-std::vector<std::vector<bool>> convert_inlier_vectors(const std::vector<std::vector<char>> &inliers) {
+std::vector<std::vector<bool>> convert_inlier_vectors(const std::vector<std::vector<uint8_t>> &inliers) {
     std::vector<std::vector<bool>> inliers_bool(inliers.size());
     for (size_t cam_k = 0; cam_k < inliers.size(); ++cam_k) {
         inliers_bool[cam_k].resize(inliers[cam_k].size());

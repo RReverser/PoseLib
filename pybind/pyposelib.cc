@@ -252,7 +252,7 @@ std::pair<CameraPose, py::dict> estimate_absolute_pose_wrapper(const std::vector
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     CameraPose pose;
-    std::vector<char> inlier_mask;
+    std::vector<uint8_t> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats = estimate_absolute_pose(points2D, points3D, camera, ransac_opt, bundle_opt, &pose, &inlier_mask);
@@ -339,8 +339,8 @@ std::pair<CameraPose, py::dict> estimate_absolute_pose_pnpl_wrapper(
     }
 
     CameraPose pose;
-    std::vector<char> inlier_points_mask;
-    std::vector<char> inlier_lines_mask;
+    std::vector<uint8_t> inlier_points_mask;
+    std::vector<uint8_t> inlier_lines_mask;
 
     RansacStats stats = estimate_absolute_pose_pnpl(points2D, points3D, lines2D, lines3D, camera, ransac_opt,
                                                     bundle_opt, &pose, &inlier_points_mask, &inlier_lines_mask);
@@ -444,7 +444,7 @@ std::pair<CameraPose, py::dict> estimate_generalized_absolute_pose_wrapper(
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     CameraPose pose;
-    std::vector<std::vector<char>> inlier_mask;
+    std::vector<std::vector<uint8_t>> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats = estimate_generalized_absolute_pose(points2D, points3D, camera_ext, cameras, ransac_opt,
@@ -520,7 +520,7 @@ std::pair<CameraPose, py::dict> estimate_relative_pose_wrapper(const std::vector
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     CameraPose pose;
-    std::vector<char> inlier_mask;
+    std::vector<uint8_t> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats =
@@ -558,7 +558,7 @@ estimate_shared_focal_relative_pose_wrapper(const std::vector<Eigen::Vector2d> &
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     ImagePair image_pair;
-    std::vector<char> inlier_mask;
+    std::vector<uint8_t> inlier_mask;
 
     std::vector<Image> output;
 
@@ -626,7 +626,7 @@ std::pair<Eigen::Matrix3d, py::dict> estimate_fundamental_wrapper(const std::vec
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     Eigen::Matrix3d F;
-    std::vector<char> inlier_mask;
+    std::vector<uint8_t> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats = estimate_fundamental(points2D_1, points2D_2, ransac_opt, bundle_opt, &F, &inlier_mask);
@@ -683,7 +683,7 @@ std::pair<Eigen::Matrix3d, py::dict> estimate_homography_wrapper(const std::vect
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     Eigen::Matrix3d H;
-    std::vector<char> inlier_mask;
+    std::vector<uint8_t> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats = estimate_homography(points2D_1, points2D_2, ransac_opt, bundle_opt, &H, &inlier_mask);
@@ -740,7 +740,7 @@ std::pair<CameraPose, py::dict> estimate_generalized_relative_pose_wrapper(
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     CameraPose pose;
-    std::vector<std::vector<char>> inlier_mask;
+    std::vector<std::vector<uint8_t>> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats = estimate_generalized_relative_pose(matches, camera1_ext, cameras1, camera2_ext, cameras2,
@@ -844,8 +844,8 @@ estimate_hybrid_pose_wrapper(const std::vector<Eigen::Vector2d> &points2D, const
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     CameraPose pose;
-    std::vector<char> inliers_mask_2d3d;
-    std::vector<std::vector<char>> inliers_mask_2d2d;
+    std::vector<uint8_t> inliers_mask_2d3d;
+    std::vector<std::vector<uint8_t>> inliers_mask_2d2d;
 
     py::gil_scoped_release release;
     RansacStats stats = estimate_hybrid_pose(points2D, points3D, matches_2D_2D, camera, map_ext, map_cameras,
@@ -888,7 +888,7 @@ std::pair<CameraPose, py::dict> estimate_1D_radial_absolute_pose_wrapper(const s
     update_bundle_options(bundle_opt_dict, bundle_opt);
 
     CameraPose pose;
-    std::vector<char> inlier_mask;
+    std::vector<uint8_t> inlier_mask;
 
     py::gil_scoped_release release;
     RansacStats stats =

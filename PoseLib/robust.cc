@@ -34,7 +34,7 @@ namespace poselib {
 
 RansacStats estimate_absolute_pose(const std::vector<Point2D> &points2D, const std::vector<Point3D> &points3D,
                                    const Camera &camera, const RansacOptions &ransac_opt,
-                                   const BundleOptions &bundle_opt, CameraPose *pose, std::vector<char> *inliers) {
+                                   const BundleOptions &bundle_opt, CameraPose *pose, std::vector<uint8_t> *inliers) {
 
     std::vector<Point2D> points2D_calib(points2D.size());
     for (size_t k = 0; k < points2D.size(); ++k) {
@@ -77,7 +77,7 @@ RansacStats estimate_generalized_absolute_pose(const std::vector<std::vector<Poi
                                                const std::vector<CameraPose> &camera_ext,
                                                const std::vector<Camera> &cameras, const RansacOptions &ransac_opt,
                                                const BundleOptions &bundle_opt, CameraPose *pose,
-                                               std::vector<std::vector<char>> *inliers) {
+                                               std::vector<std::vector<uint8_t>> *inliers) {
 
     const size_t num_cams = cameras.size();
 
@@ -133,7 +133,7 @@ RansacStats estimate_absolute_pose_pnpl(const std::vector<Point2D> &points2D, co
                                         const std::vector<Line2D> &lines2D, const std::vector<Line3D> &lines3D,
                                         const Camera &camera, const RansacOptions &ransac_opt,
                                         const BundleOptions &bundle_opt, CameraPose *pose,
-                                        std::vector<char> *inliers_points, std::vector<char> *inliers_lines) {
+                                        std::vector<uint8_t> *inliers_points, std::vector<uint8_t> *inliers_lines) {
 
     std::vector<Point2D> points2D_calib(points2D.size());
     for (size_t k = 0; k < points2D.size(); ++k) {
@@ -189,7 +189,7 @@ RansacStats estimate_absolute_pose_pnpl(const std::vector<Point2D> &points2D, co
 
 RansacStats estimate_relative_pose(const std::vector<Point2D> &points2D_1, const std::vector<Point2D> &points2D_2,
                                    const Camera &camera1, const Camera &camera2, const RansacOptions &ransac_opt,
-                                   const BundleOptions &bundle_opt, CameraPose *pose, std::vector<char> *inliers) {
+                                   const BundleOptions &bundle_opt, CameraPose *pose, std::vector<uint8_t> *inliers) {
 
     const size_t num_pts = points2D_1.size();
 
@@ -233,7 +233,7 @@ RansacStats estimate_relative_pose(const std::vector<Point2D> &points2D_1, const
 RansacStats estimate_shared_focal_relative_pose(const std::vector<Point2D> &points2D_1,
                                                 const std::vector<Point2D> &points2D_2, const Point2D &pp,
                                                 const RansacOptions &ransac_opt, const BundleOptions &bundle_opt,
-                                                ImagePair *image_pair, std::vector<char> *inliers) {
+                                                ImagePair *image_pair, std::vector<uint8_t> *inliers) {
 
     const size_t num_pts = points2D_1.size();
 
@@ -286,7 +286,7 @@ RansacStats estimate_shared_focal_relative_pose(const std::vector<Point2D> &poin
 
 RansacStats estimate_fundamental(const std::vector<Point2D> &x1, const std::vector<Point2D> &x2,
                                  const RansacOptions &ransac_opt, const BundleOptions &bundle_opt, Eigen::Matrix3d *F,
-                                 std::vector<char> *inliers) {
+                                 std::vector<uint8_t> *inliers) {
 
     const size_t num_pts = x1.size();
     if (num_pts < 7) {
@@ -335,7 +335,7 @@ RansacStats estimate_fundamental(const std::vector<Point2D> &x1, const std::vect
 
 RansacStats estimate_homography(const std::vector<Point2D> &x1, const std::vector<Point2D> &x2,
                                 const RansacOptions &ransac_opt, const BundleOptions &bundle_opt, Eigen::Matrix3d *H,
-                                std::vector<char> *inliers) {
+                                std::vector<uint8_t> *inliers) {
 
     const size_t num_pts = x1.size();
     if (num_pts < 4) {
@@ -383,7 +383,7 @@ RansacStats estimate_generalized_relative_pose(const std::vector<PairwiseMatches
                                                const std::vector<CameraPose> &camera2_ext,
                                                const std::vector<Camera> &cameras2, const RansacOptions &ransac_opt,
                                                const BundleOptions &bundle_opt, CameraPose *relative_pose,
-                                               std::vector<std::vector<char>> *inliers) {
+                                               std::vector<std::vector<uint8_t>> *inliers) {
 
     std::vector<PairwiseMatches> calib_matches = matches;
     for (PairwiseMatches &m : calib_matches) {
@@ -443,7 +443,7 @@ RansacStats estimate_hybrid_pose(const std::vector<Point2D> &points2D, const std
                                  const std::vector<PairwiseMatches> &matches2D_2D, const Camera &camera,
                                  const std::vector<CameraPose> &map_ext, const std::vector<Camera> &map_cameras,
                                  const RansacOptions &ransac_opt, const BundleOptions &bundle_opt, CameraPose *pose,
-                                 std::vector<char> *inliers_2D_3D, std::vector<std::vector<char>> *inliers_2D_2D) {
+                                 std::vector<uint8_t> *inliers_2D_3D, std::vector<std::vector<uint8_t>> *inliers_2D_2D) {
 
     if (points2D.size() < 3) {
         // Not possible to generate minimal sample (until hybrid estimators are added into the ransac as well)
@@ -517,7 +517,7 @@ RansacStats estimate_hybrid_pose(const std::vector<Point2D> &points2D, const std
 
 RansacStats estimate_1D_radial_absolute_pose(const std::vector<Point2D> &points2D, const std::vector<Point3D> &points3D,
                                              const RansacOptions &ransac_opt, const BundleOptions &bundle_opt,
-                                             CameraPose *pose, std::vector<char> *inliers) {
+                                             CameraPose *pose, std::vector<uint8_t> *inliers) {
     if (points2D.size() < 5) {
         // Not possible to generate minimal sample
         return RansacStats();

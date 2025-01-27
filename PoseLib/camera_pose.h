@@ -36,9 +36,13 @@
 #include <Eigen/Dense>
 #include <vector>
 
-namespace poselib {
+namespace Eigen {
 
-using Matrix3x4d = Eigen::Matrix<double, 3, 4>;
+using Matrix3x4d = Matrix<double, 3, 4>;
+
+}
+
+namespace poselib {
 
 struct alignas(32) CameraPose {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -55,8 +59,8 @@ struct alignas(32) CameraPose {
 
     // Helper functions
     inline Eigen::Matrix3d R() const { return quat_to_rotmat(q); }
-    inline Matrix3x4d Rt() const {
-        Matrix3x4d tmp;
+    inline Eigen::Matrix3x4d Rt() const {
+        Eigen::Matrix3x4d tmp;
         tmp.block<3, 3>(0, 0) = quat_to_rotmat(q);
         tmp.col(3) = t;
         return tmp;

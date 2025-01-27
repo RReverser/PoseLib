@@ -43,7 +43,7 @@ namespace poselib {
 // Threshold for reprojection error is set by RansacOptions.max_reproj_error
 RansacStats estimate_absolute_pose(const std::vector<Point2D> &points2D, const std::vector<Point3D> &points3D,
                                    const Camera &camera, const RansacOptions &ransac_opt,
-                                   const BundleOptions &bundle_opt, CameraPose *pose, std::vector<char> *inliers);
+                                   const BundleOptions &bundle_opt, CameraPose *pose, std::vector<uint8_t> *inliers);
 
 // Estimates generalized absolute pose using LO-RANSAC followed by non-linear refinement
 // Threshold for reprojection error is set by RansacOptions.max_reproj_error
@@ -52,7 +52,7 @@ RansacStats estimate_generalized_absolute_pose(const std::vector<std::vector<Poi
                                                const std::vector<CameraPose> &camera_ext,
                                                const std::vector<Camera> &cameras, const RansacOptions &ransac_opt,
                                                const BundleOptions &bundle_opt, CameraPose *pose,
-                                               std::vector<std::vector<char>> *inliers);
+                                               std::vector<std::vector<uint8_t>> *inliers);
 
 // Estimates absolute pose using LO-RANSAC followed by non-linear refinement
 // using both 2D-3D point and line matches
@@ -63,35 +63,35 @@ RansacStats estimate_absolute_pose_pnpl(const std::vector<Point2D> &points2D, co
                                         const std::vector<Line2D> &line2D, const std::vector<Line3D> &line3D,
                                         const Camera &camera, const RansacOptions &ransac_opt,
                                         const BundleOptions &bundle_opt, CameraPose *pose,
-                                        std::vector<char> *inliers_points, std::vector<char> *inliers_lines);
+                                        std::vector<uint8_t> *inliers_points, std::vector<uint8_t> *inliers_lines);
 
 // Estimates relative pose using LO-RANSAC followed by non-linear refinement
 // Threshold for Sampson error is set by RansacOptions.max_epipolar_error
 RansacStats estimate_relative_pose(const std::vector<Point2D> &points2D_1, const std::vector<Point2D> &points2D_2,
                                    const Camera &camera1, const Camera &camera2, const RansacOptions &ransac_opt,
                                    const BundleOptions &bundle_opt, CameraPose *relative_pose,
-                                   std::vector<char> *inliers);
+                                   std::vector<uint8_t> *inliers);
 
 // Estimates relative pose with shared unknown focal length using LO-RANSAC followed by non-linear refinement
 // Threshold for Sampson error is set by RansacOptions.max_epipolar_error
 RansacStats estimate_shared_focal_relative_pose(const std::vector<Point2D> &points2D_1,
                                                 const std::vector<Point2D> &points2D_2, const Point2D &pp,
                                                 const RansacOptions &ransac_opt, const BundleOptions &bundle_opt,
-                                                ImagePair *image_pair, std::vector<char> *inliers);
+                                                ImagePair *image_pair, std::vector<uint8_t> *inliers);
 
 // Estimates a fundamental matrix using LO-RANSAC followed by non-linear refinement
 // NOTE: USE estimate_relative_pose IF YOU KNOW THE INTRINSICS!!!
 // Threshold for Sampson error is set by RansacOptions.max_epipolar_error
 RansacStats estimate_fundamental(const std::vector<Point2D> &points2D_1, const std::vector<Point2D> &points2D_2,
                                  const RansacOptions &ransac_opt, const BundleOptions &bundle_opt, Eigen::Matrix3d *F,
-                                 std::vector<char> *inliers);
+                                 std::vector<uint8_t> *inliers);
 
 // Estimates a homography matrix using LO-RANSAC followed by non-linear refinement
 // Convention is x2 = H*x1
 // Threshold for transfer error is set by RansacOptions.max_reproj_error
 RansacStats estimate_homography(const std::vector<Point2D> &points2D_1, const std::vector<Point2D> &points2D_2,
                                 const RansacOptions &ransac_opt, const BundleOptions &bundle_opt, Eigen::Matrix3d *H,
-                                std::vector<char> *inliers);
+                                std::vector<uint8_t> *inliers);
 
 // Estimates generalized relative pose using LO-RANSAC followed by non-linear refinement
 // Threshold for Sampson error is set by RansacOptions.max_epipolar_error
@@ -101,7 +101,7 @@ RansacStats estimate_generalized_relative_pose(const std::vector<PairwiseMatches
                                                const std::vector<CameraPose> &camera2_ext,
                                                const std::vector<Camera> &cameras2, const RansacOptions &ransac_opt,
                                                const BundleOptions &bundle_opt, CameraPose *relative_pose,
-                                               std::vector<std::vector<char>> *inliers);
+                                               std::vector<std::vector<uint8_t>> *inliers);
 
 // Estimates camera pose from hybrid correspondences using LO-RANSAC followed by non-linear refinement
 //  camera are the intrinsics for the query camera
@@ -114,7 +114,7 @@ RansacStats estimate_hybrid_pose(const std::vector<Point2D> &points2D, const std
                                  const std::vector<PairwiseMatches> &matches2D_2D, const Camera &camera,
                                  const std::vector<CameraPose> &map_ext, const std::vector<Camera> &map_cameras,
                                  const RansacOptions &ransac_opt, const BundleOptions &bundle_opt, CameraPose *pose,
-                                 std::vector<char> *inliers_2D_3D, std::vector<std::vector<char>> *inliers_2D_2D);
+                                 std::vector<uint8_t> *inliers_2D_3D, std::vector<std::vector<uint8_t>> *inliers_2D_2D);
 
 // Estimates generalized camera pose from hybrid correspondences using LO-RANSAC followed by non-linear refinement
 //  (points2D_1, points3D_1) are the 2D-3D matches where the 2D point is in the first rig and the 3D points are in the
@@ -128,15 +128,15 @@ RansacStats estimate_generalized_hybrid_pose(
     const std::vector<PairwiseMatches> &matches2D_2D, const std::vector<CameraPose> &camera1_ext,
     const std::vector<Camera> &cameras1, const std::vector<CameraPose> &camera2_ext,
     const std::vector<Camera> &cameras2, const RansacOptions &ransac_opt, const BundleOptions &bundle_opt,
-    CameraPose *pose, std::vector<std::vector<char>> *inliers_1, std::vector<std::vector<char>> *inliers_2,
-    std::vector<std::vector<char>> *inliers_2D_2D);
+    CameraPose *pose, std::vector<std::vector<uint8_t>> *inliers_1, std::vector<std::vector<uint8_t>> *inliers_2,
+    std::vector<std::vector<uint8_t>> *inliers_2D_2D);
 
 // Estimates the 1D absolute pose using LO-RANSAC followed by non-linear refinement
 // Assumes that the image points are centered already
 // Threshold for radial reprojection error is set by RansacOptions.max_reproj_error
 RansacStats estimate_1D_radial_absolute_pose(const std::vector<Point2D> &points2D, const std::vector<Point3D> &points3D,
                                              const RansacOptions &ransac_opt, const BundleOptions &bundle_opt,
-                                             CameraPose *pose, std::vector<char> *inliers);
+                                             CameraPose *pose, std::vector<uint8_t> *inliers);
 
 } // namespace poselib
 
